@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Strava React Template
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This basic Strava template fetches and displays your activity from Strava. All you need to do to get it up and running is go to the [API Application settings on your Strava profile](https://www.strava.com/settings/api). Generate a client secret, then create a file called '.env' in the root of this project, and copy the client secret into it, in the format 'REACT_APP_CLIENT_SECRET=[client_secret]'. Then...
+
+## Getting Started with Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and so imports these node commands:
 
 ## Available Scripts
 
