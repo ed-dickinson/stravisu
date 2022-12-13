@@ -1,9 +1,21 @@
+:root {
+  --strava-orange: #fc4c02;
+}
+
 .App {
   text-align: center;
 }
 
+.Athlete img {
+  border-radius: 50%;
+  border: 2px solid var(--strava-orange);
+}
+.Athlete .ID {
+  color: var(--strava-orange);
+}
+
 .App-logo {
-  height: 40vmin;
+  height: 4vmin;
   pointer-events: none;
 }
 
@@ -35,4 +47,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+header {
+  background-color: var(--strava-orange);
+}
+
+footer {
+  background-color: var(--strava-orange);
 }
