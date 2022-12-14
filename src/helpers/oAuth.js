@@ -9,8 +9,14 @@ const exchange = async params => {
   if (active) return
   active = true
 
+  // params = {...params,
+  //   client_id : '70098',
+  //   client_secret : process.env.REACT_APP_CLIENT_SECRET,
+  //   grant_type : 'authorization_code'
+  // }
+
   params = {...params,
-    client_id : '70098',
+    client_id : process.env.REACT_APP_CLIENT_ID,
     client_secret : process.env.REACT_APP_CLIENT_SECRET,
     grant_type : 'authorization_code'
   }

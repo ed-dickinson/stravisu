@@ -1,6 +1,13 @@
 # Strava React Template
 
-This basic Strava template fetches and displays your activity from Strava. All you need to do to get it up and running is go to the [API Application settings on your Strava profile](https://www.strava.com/settings/api). Generate a client secret, then create a file called '.env' in the root of this project, and copy the client secret into it, in the format 'REACT_APP_CLIENT_SECRET=[client_secret]'. Then...
+This basic Strava template fetches and displays your activity from Strava. All you need to do to get it up and running is go to the [API Application settings on your Strava profile](https://www.strava.com/settings/api). Generate a client secret, then create a file called '.env' in the root of this project, and copy the **client secret** and your **client ID** into it, in this format:
+
+```
+REACT_APP_CLIENT_SECRET=[Client Secret]
+REACT_APP_CLIENT_ID=[Client ID]
+```
+
+Then start up the project and it should be ready to go!
 
 ## Getting Started with Create React App
 

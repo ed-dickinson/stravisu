@@ -145,14 +145,18 @@ function App() {
   // could make header cool loader that estimates load completion by activity date compared to profile creation date
   return (
     <div className="App">
-    <header>{activities.length} activities loaded from Strava.</header>
+    <header>{token.valid ?
+      <div>{activities.length} activities loaded from Strava.</div>
+      : <div>Not connected to Strava.</div>
+      }
+    </header>
 
     {athlete &&
       <Athlete athlete={athlete}/>
     }
 
     {!token.valid &&
-      <a href={"http://www.strava.com/oauth/authorize?client_id=70098&response_type=code&redirect_uri="+window.location.origin+"/approval&approval_prompt=auto&scope=read_all,activity:read_all"}><img src="/assets/strava-connect-button@2x.png" alt="StravaConnectButton" /></a>
+      <a href={"http://www.strava.com/oauth/authorize?client_id="+process.env.REACT_APP_CLIENT_ID+"&response_type=code&redirect_uri="+window.location.origin+"/approval&approval_prompt=auto&scope=read_all,activity:read_all"}><img src="/assets/strava-connect-button@2x.png" alt="StravaConnectButton" /></a>
     }
 
     <footer>

@@ -49,10 +49,8 @@
   }
 }
 
-header {
+header, footer {
   background-color: var(--strava-orange);
-}
-
-footer {
-  background-color: var(--strava-orange);
+  color: white;
+  padding: 0.5em 0;
 }
