@@ -4,9 +4,12 @@ import logo from './logo.svg';
 import './App.css';
 
 import Athlete from './components/Athlete'
+import Activities from './components/Activities'
 
 import oAuthService from './helpers/oAuth'
 import stravaService from './helpers/strava'
+
+import calcService from './helpers/calcs'
 
 
 
@@ -98,6 +101,7 @@ function App() {
 
         setToken({token: result.access_token, valid: true})
         setAthlete(result.athlete)
+        console.log(result.athlete)
       }).catch(err=>{
         console.log('bad auth request')
       })
@@ -119,14 +123,9 @@ function App() {
   // use effect for fetching activities
   useEffect(()=>{
 
-    console.log('1')
-
     if (activities.length > 0) {return}
 
-    console.log('2', athlete, token)
-
     if (token.valid) {
-      console.log('3')
       stravaService.allActivities({
         access_token : token.token,
         activities : activities ,
@@ -141,18 +140,47 @@ function App() {
   ,activities, athlete
   ])
 
+  // useEffect(()=>{
+  //   if (activities.length === 0) {return}
+  //   if (athlete) {
+  //
+  //   console.log('workin')
+  //   let now = new Date()
+  //
+  //   let created_at = new Date(athlete.created_at)
+  //   let time_since_creation = now - created_at
+  //   let furthest_back = new Date(activities[activities.length-1].start_date_local)
+  //   let time_latest = furthest_back - created_at
+  //   let percent = (time_latest / time_since_creation) * 100
+  //   console.log(percent)
+  //   setState({...state, load_progress: percent})
+  //   }
+  // },[athlete, activities])
+
+  // setState({...state, load_progress: 0})
+
 
   // could make header cool loader that estimates load completion by activity date compared to profile creation date
   return (
     <div className="App">
-    <header>{token.valid ?
-      <div>{activities.length} activities loaded from Strava.</div>
-      : <div>Not connected to Strava.</div>
+    <header>
+
+      {token.valid ?
+        <div>{activities.length} activities loaded from Strava.</div>
+        : <div>Not connected to Strava.</div>
       }
+      {athlete && activities.length > 0 &&
+        <div className="LoadBar" style={{width:(state.fully_loaded?100:calcService.loading([athlete, activities]))+'%'}}></div>
+      }
+
     </header>
 
     {athlete &&
       <Athlete athlete={athlete}/>
+    }
+
+    {activities &&
+      <Activities activities={activities} />
     }
 
     {!token.valid &&
@@ -160,8 +188,6 @@ function App() {
     }
 
     <footer>
-        <img src={logo} className="App-logo" alt="logo" />
-
 
         <a
           className="App-link"
@@ -169,7 +195,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          <img src={logo} className="App-logo" alt="logo" />
         </a>
 
       </footer>

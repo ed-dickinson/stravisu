@@ -2,13 +2,26 @@
   --strava-orange: #fc4c02;
 }
 
-.App {
-  text-align: center;
+html {
+  min-height: 100%;
 }
 
+body {
+
+}
+
+.App {
+
+  min-height: 100vh;
+}
+
+.Athlete {
+  text-align: center;
+  margin: 1em 0;
+}
 .Athlete img {
   border-radius: 50%;
-  border: 2px solid var(--strava-orange);
+  border: 3px solid var(--strava-orange);
 }
 .Athlete .ID {
   color: var(--strava-orange);
@@ -25,7 +38,15 @@
   }
 }
 
-.App-header {
+table th {
+  color: var(--strava-orange);
+  text-align: left;
+}
+table tr {
+  vertical-align: top;
+}
+
+/* header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -34,11 +55,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
-.App-link {
+/* .App-link {
   color: #61dafb;
-}
+} */
 
 @keyframes App-logo-spin {
   from {
@@ -53,4 +74,25 @@ header, footer {
   background-color: var(--strava-orange);
   color: white;
   padding: 0.5em 0;
+  position: relative;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+footer {
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
+}
+
+
+header .LoadBar {
+  background-color: var(--strava-orange);
+  position: absolute;
+  /* top: 100%; */
+  bottom: 0;
+  border-right: 100vw solid white;
+
+  height: 5px;
+  /* margin-bottom: 20px; */
 }
