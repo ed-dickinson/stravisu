@@ -13,8 +13,6 @@ const exported = {
     let furthest_back = new Date(activities[activities.length-1].start_date_local)
     let time_latest = furthest_back - created_at
     let percent = (time_latest / time_since_creation) * 100
-    console.log(percent)
-    // setState({...state, load_progress: percent})
 
     let output = 100 - percent
 
