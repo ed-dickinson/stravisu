@@ -179,7 +179,7 @@ function App() {
       <Athlete athlete={athlete}/>
     }
 
-    {activities &&
+    {activities.length > 0 &&
       <Activities activities={activities} />
     }
 

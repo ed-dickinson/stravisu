@@ -24,7 +24,7 @@ const Activities = ({activities}) => {
               <td className="Distance">{activity.distance}m</td>
               <td className="Time">{activity.elapsed_time}s</td>
               <td className="Date">{activity.start_date_local}</td>
-              <td><a href={"https://www.strava.com/activities/" + activity.id}>--></a></td>
+              <td className="LinkOut"><a href={"https://www.strava.com/activities/" + activity.id}><img src="assets/strava-out.png" style={{height:'0.7em'}}/></a></td>
             </tr>
           )}
         </tbody>

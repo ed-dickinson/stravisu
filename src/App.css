@@ -46,6 +46,15 @@ table tr {
   vertical-align: top;
 }
 
+.LinkOut img {
+  position: relative;
+  transition: 0.25s;
+  left: 0;
+}
+.LinkOut:hover img {
+  left: 3px;
+}
+
 /* header {
   background-color: #282c34;
   min-height: 100vh;
