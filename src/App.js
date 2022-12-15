@@ -20,6 +20,8 @@ function App() {
   const [activities, setActivities] = useState([])
   const [state, setState] = useState({})
 
+  const [metric, setMetric] = useState(true)
+
   const freshFromRedirect = useRef(true)
 
   // useEffect(()=>{
@@ -173,6 +175,13 @@ function App() {
         <div className="LoadBar" style={{width:(state.fully_loaded?100:calcService.loading([athlete, activities]))+'%'}}></div>
       }
 
+      <button
+        className="MetricSwitch"
+        onClick={()=>{setMetric(!metric)}}
+      >
+        {metric ? 'M' : 'I'}
+      </button>
+
     </header>
 
     {athlete &&
@@ -180,7 +189,7 @@ function App() {
     }
 
     {activities.length > 0 &&
-      <Activities activities={activities} />
+      <Activities activities={activities} metric={metric} />
     }
 
     {!token.valid &&

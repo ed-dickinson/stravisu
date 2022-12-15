@@ -11,7 +11,7 @@ body {
 }
 
 .App {
-
+  text-align: center;
   min-height: 100vh;
 }
 
@@ -40,6 +40,8 @@ body {
 
 table th {
   color: var(--strava-orange);
+}
+table {
   text-align: left;
 }
 table tr {
@@ -104,4 +106,18 @@ header .LoadBar {
 
   height: 5px;
   /* margin-bottom: 20px; */
+}
+
+.MetricSwitch {
+  background-color: white;
+  color: var(--strava-orange);
+  font-weight: bolder;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 1.8em;
+  height: 1.8em;
 }
