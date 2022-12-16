@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
 
 import logo from './logo.svg';
 import './App.css';
@@ -22,29 +22,26 @@ function App() {
 
   const [metric, setMetric] = useState(true)
 
-  const freshFromRedirect = useRef(true)
+  // const freshFromRedirect = useRef(true)
 
-  // useEffect(()=>{
-  //     let debug = ''
-  //     if (localStorage.getItem('Athlete')) {
-  //       setAthlete(JSON.parse(localStorage.getItem('Athlete')))
-  //       debug += 'athlete, '
-  //     }
-  //     let stored_access_token = localStorage.getItem('AccessToken')
-  //     if (stored_access_token) {
-  //       let token_expiry = localStorage.getItem('TokenExpires')
-  //
-  //       if (token_expiry * 1000 > new Date().getTime()) {
-  //         setToken({token : stored_access_token, valid : true})
-  //         debug += 'valid token, '
-  //       } else {
-  //         setToken({token : stored_access_token, valid : false})
-  //         debug += 'expired token, '
-  //       }
-  //       debug += 'retrieved from localStorage'
-  //     }
-  //     console.log(debug)
-  //   },[])
+  useEffect(()=>{
+      let debug = ''
+      if (localStorage.getItem('Athlete')) {
+        setAthlete(JSON.parse(localStorage.getItem('Athlete')))
+        debug += 'athlete, '
+      }
+      let stored_access_token = localStorage.getItem('AccessToken')
+      if (stored_access_token) {
+        let token_expiry = localStorage.getItem('TokenExpires')
+
+        setToken({token : stored_access_token, valid : token_expiry * 1000 > new Date().getTime()})
+
+        debug += `${token_expiry * 1000 > new Date().getTime() ? 'valid' : 'exp'} token, `
+
+        debug += 'retrieved from localStorage'
+      }
+      console.log(debug)
+    },[])
 
     // handles redirect
   useEffect(() => {
@@ -52,70 +49,49 @@ function App() {
     const queryString = window.location.search;
     const route = window.location.pathname.slice(1)
 
-
     // cancels if not a redirect
     if (queryString === '') return
     if (route !== 'approval') return
 
     const urlParams = new URLSearchParams(queryString);
 
-
-
-    if (urlParams.get('scope') === 'read,activity:read_all,read_all') {
-      // if redirect with approval from Strava
-      // then login to mongodb
-      // a;so do this if athlete is found in storage
-
-      // only do exchange if token needs refreshing
-      // although this would be handy to change to recognising only doing it on the first redirect not on app changes
-
-      console.log('routinn', token)
-
-      if (!freshFromRedirect.current) {
-        // return
-      } else {
-        freshFromRedirect.current = false
-      }
-
-      // if (token.valid !== false) {
-      if (token.valid === true) {
-        return
-      }
-      // if (token.valid === null) {
-      //   // DO SOMETHING HERE TO STOP NON-TRIGGERING ON non-refresh REDIRECT
-      //   console.log('token is null')
-      //   // return
-      // }
-      if (localStorage.getItem('AccessToken') && localStorage.getItem('TokenExpires') * 1000 > new Date().getTime()) {
-        setToken({token: localStorage.getItem('AccessToken'), valid: true})
-        setAthlete(JSON.parse(localStorage.getItem('Athlete')))
-        return
-      }
-
-      console.log('oAuth')
-      oAuthService.exchange({
-        code : urlParams.get('code')
-      }).then(result => {
-
-        localStorage.setItem('TokenExpires', result.expires_at)
-        localStorage.setItem('AccessToken', result.access_token)
-        localStorage.setItem('Athlete', JSON.stringify(result.athlete))
-
-        setToken({token: result.access_token, valid: true})
-        setAthlete(result.athlete)
-        console.log(result.athlete)
-      }).catch(err=>{
-        console.log('bad auth request')
-      })
-
-      // setScope('read,activity:read_all,read_all')
-      // setTempToken(urlParams.get('code'))
-    } else {
-      // this leaves redirect page with no
-
+    // sets scope rerequest
+    if (urlParams.get('scope') !== 'read,activity:read_all,read_all') {
       setState({...state, scope_rerequest : true})
       return
     }
+    //
+    // if (!freshFromRedirect.current) {
+    //   // return
+    // } else {
+    //   freshFromRedirect.current = false
+    // }
+
+    // if (token.valid !== false) {
+    if (token.valid === true) return
+
+
+    if (localStorage.getItem('AccessToken') && localStorage.getItem('TokenExpires') * 1000 > new Date().getTime()) {
+      setToken({token: localStorage.getItem('AccessToken'), valid: true})
+      setAthlete(JSON.parse(localStorage.getItem('Athlete')))
+      return
+    }
+
+    oAuthService.exchange({
+      code : urlParams.get('code')
+    }).then(result => {
+
+      localStorage.setItem('TokenExpires', result.expires_at)
+      localStorage.setItem('AccessToken', result.access_token)
+      localStorage.setItem('Athlete', JSON.stringify(result.athlete))
+
+      setToken({token: result.access_token, valid: true})
+      setAthlete(result.athlete)
+      console.log(result.athlete)
+    }).catch(err=>{
+      setState({error: 'Error authenticating.'})
+    })
+
 
   }, [token,
     state]) // empty array dependency only runs once
@@ -125,6 +101,7 @@ function App() {
   // use effect for fetching activities
   useEffect(()=>{
 
+    // if activities are already being got
     if (activities.length > 0) {return}
 
     if (token.valid) {
@@ -134,35 +111,13 @@ function App() {
         setActivities : setActivities
       }).then(res => {
         console.log('fetched runs:', res)
-        // setActivities(res)
         setState({...state, fully_loaded : true})
       })
     }
   },[token
-  ,activities, athlete
+  ,activities, athlete, state
   ])
 
-  // useEffect(()=>{
-  //   if (activities.length === 0) {return}
-  //   if (athlete) {
-  //
-  //   console.log('workin')
-  //   let now = new Date()
-  //
-  //   let created_at = new Date(athlete.created_at)
-  //   let time_since_creation = now - created_at
-  //   let furthest_back = new Date(activities[activities.length-1].start_date_local)
-  //   let time_latest = furthest_back - created_at
-  //   let percent = (time_latest / time_since_creation) * 100
-  //   console.log(percent)
-  //   setState({...state, load_progress: percent})
-  //   }
-  // },[athlete, activities])
-
-  // setState({...state, load_progress: 0})
-
-
-  // could make header cool loader that estimates load completion by activity date compared to profile creation date
   return (
     <div className="App">
     <header>
@@ -186,6 +141,14 @@ function App() {
 
     {athlete &&
       <Athlete athlete={athlete}/>
+    }
+
+    {state.scope_rerequest &&
+      <div>Hey, you didn't give all the permissions!</div>
+    }
+
+    {state.error &&
+      <div>{state.error}</div>
     }
 
     {activities.length > 0 &&
