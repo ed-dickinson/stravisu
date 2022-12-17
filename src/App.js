@@ -8,9 +8,7 @@ import Activities from './components/Activities'
 
 import oAuthService from './helpers/oAuth'
 import stravaService from './helpers/strava'
-
 import calcService from './helpers/calcs'
-
 
 
 function App() {
@@ -22,61 +20,48 @@ function App() {
 
   const [metric, setMetric] = useState(true)
 
-  // const freshFromRedirect = useRef(true)
-
   useEffect(()=>{
-      let debug = ''
       if (localStorage.getItem('Athlete')) {
         setAthlete(JSON.parse(localStorage.getItem('Athlete')))
-        debug += 'athlete, '
       }
       let stored_access_token = localStorage.getItem('AccessToken')
       if (stored_access_token) {
-        let token_expiry = localStorage.getItem('TokenExpires')
-
-        setToken({token : stored_access_token, valid : token_expiry * 1000 > new Date().getTime()})
-
-        debug += `${token_expiry * 1000 > new Date().getTime() ? 'valid' : 'exp'} token, `
-
-        debug += 'retrieved from localStorage'
+        setToken({
+          token : stored_access_token ,
+          valid : localStorage.getItem('TokenExpires') * 1000 > new Date().getTime()
+        })
       }
-      console.log(debug)
     },[])
 
-    // handles redirect
+  // This only happens on a redirect from Strava.
   useEffect(() => {
 
+    // These cancel the useEffect if it's not a redirect.
     const queryString = window.location.search;
     const route = window.location.pathname.slice(1)
 
-    // cancels if not a redirect
     if (queryString === '') return
     if (route !== 'approval') return
 
+    // This triggers if not all of the permissions were checked.
     const urlParams = new URLSearchParams(queryString);
 
-    // sets scope rerequest
     if (urlParams.get('scope') !== 'read,activity:read_all,read_all') {
       setState({...state, scope_rerequest : true})
       return
     }
-    //
-    // if (!freshFromRedirect.current) {
-    //   // return
-    // } else {
-    //   freshFromRedirect.current = false
-    // }
 
-    // if (token.valid !== false) {
+    // This triggers if the token is already valid.
     if (token.valid === true) return
 
-
+    // This checks the local storage for a valid access token and athlete.
     if (localStorage.getItem('AccessToken') && localStorage.getItem('TokenExpires') * 1000 > new Date().getTime()) {
       setToken({token: localStorage.getItem('AccessToken'), valid: true})
       setAthlete(JSON.parse(localStorage.getItem('Athlete')))
       return
     }
 
+    // This is the actual call to the Strava Authorization.
     oAuthService.exchange({
       code : urlParams.get('code')
     }).then(result => {
@@ -87,21 +72,22 @@ function App() {
 
       setToken({token: result.access_token, valid: true})
       setAthlete(result.athlete)
-      console.log(result.athlete)
+
+      console.log('athlete:', result.athlete)
+
     }).catch(err=>{
-      setState({error: 'Error authenticating.'})
+      // setState({error: 'Error authenticating.'})
     })
 
-
   }, [token,
-    state]) // empty array dependency only runs once
+    state])
 
 
 
-  // use effect for fetching activities
+  // This fetches the list of activities from Strava.
   useEffect(()=>{
 
-    // if activities are already being got
+    // Cancels if there already are activities.
     if (activities.length > 0) {return}
 
     if (token.valid) {
@@ -127,7 +113,15 @@ function App() {
         : <div>Not connected to Strava.</div>
       }
       {athlete && activities.length > 0 &&
-        <div className="LoadBar" style={{width:(state.fully_loaded?100:calcService.loading([athlete, activities]))+'%'}}></div>
+        <div
+          className="LoadBar"
+          style={{
+            width:(state.fully_loaded
+              ? 100
+              : calcService.loading([athlete, activities]))+'%'
+            }}
+        >
+        </div>
       }
 
       <button
@@ -144,7 +138,7 @@ function App() {
     }
 
     {state.scope_rerequest &&
-      <div>Hey, you didn't give all the permissions!</div>
+      <div>You didn't give all the permissions!</div>
     }
 
     {state.error &&
@@ -156,7 +150,20 @@ function App() {
     }
 
     {!token.valid &&
-      <a href={"http://www.strava.com/oauth/authorize?client_id="+process.env.REACT_APP_CLIENT_ID+"&response_type=code&redirect_uri="+window.location.origin+"/approval&approval_prompt=auto&scope=read_all,activity:read_all"}><img src="/assets/strava-connect-button@2x.png" alt="StravaConnectButton" /></a>
+      <a
+        href={
+          "http://www.strava.com/oauth/authorize?client_id="
+          + process.env.REACT_APP_CLIENT_ID
+          + "&response_type=code&redirect_uri="
+          + window.location.origin
+          + "/approval&approval_prompt=auto&scope=read_all,activity:read_all"
+        }
+      >
+        <img
+          src="/assets/strava-connect-button@2x.png"
+          alt="StravaConnectButton"
+        />
+      </a>
     }
 
     <footer>
@@ -167,7 +174,11 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src={logo} className="App-logo" alt="logo" />
+          <img
+            src={logo}
+            className="App-logo"
+            alt="React logo"
+          />
         </a>
 
       </footer>
