@@ -91,6 +91,7 @@ function App() {
     if (activities.length > 0) {return}
 
     if (token.valid) {
+      setState({...state, fully_loaded : true})
       stravaService.allActivities({
         access_token : token.token,
         activities : activities ,
@@ -143,6 +144,10 @@ function App() {
 
     {state.error &&
       <div>{state.error}</div>
+    }
+
+    {state.fully_loaded === false &&
+      <div>Loading runs...</div>
     }
 
     {activities.length > 0 &&
