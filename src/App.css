@@ -6,10 +6,6 @@ html {
   min-height: 100%;
 }
 
-body {
-
-}
-
 .App {
   text-align: center;
   min-height: 100vh;
@@ -30,6 +26,7 @@ body {
 .App-logo {
   height: 4vmin;
   pointer-events: none;
+  overflow-y: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -47,7 +44,9 @@ table {
 table tr {
   vertical-align: top;
 }
-table .Distance, table .Elevation, table .Time {
+table .Distance,
+table .Elevation,
+table .Time {
   text-align: right;
 }
 
@@ -59,21 +58,6 @@ table .Distance, table .Elevation, table .Time {
 .LinkOut:hover img {
   left: 3px;
 }
-
-/* header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
-
-/* .App-link {
-  color: #61dafb;
-} */
 
 @keyframes App-logo-spin {
   from {
@@ -94,21 +78,16 @@ header, footer {
 }
 
 footer {
-  /* position: absolute; */
   bottom: 0;
   width: 100%;
 }
 
-
 header .LoadBar {
   background-color: var(--strava-orange);
   position: absolute;
-  /* top: 100%; */
   bottom: 0;
   border-right: 100vw solid white;
-
   height: 5px;
-  /* margin-bottom: 20px; */
 }
 
 .MetricSwitch {
