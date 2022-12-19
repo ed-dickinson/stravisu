@@ -11,6 +11,7 @@ import stravaService from './helpers/strava'
 import calcService from './helpers/calcs'
 
 
+
 function App() {
 
   const [token, setToken] = useState({token : null, valid : null})
@@ -89,16 +90,19 @@ function App() {
 
     // Cancels if there already are activities.
     if (activities.length > 0) {return}
+    if (state.error) {return}
 
     if (token.valid) {
-      setState({...state, fully_loaded : true})
+      setState({...state, loading: true})
       stravaService.allActivities({
         access_token : token.token,
         activities : activities ,
         setActivities : setActivities
       }).then(res => {
         console.log('fetched runs:', res)
-        setState({...state, fully_loaded : true})
+        setState({...state, fully_loaded : true, loading: false})
+      }).catch(err => {
+        setState({...state, error: 'Error fetching activities from Strava.'})
       })
     }
   },[token
@@ -113,15 +117,16 @@ function App() {
         <div>{activities.length} activities loaded from Strava.</div>
         : <div>Not connected to Strava.</div>
       }
-      {athlete && activities.length > 0 &&
-        <div
-          className="LoadBar"
-          style={{
-            width:(state.fully_loaded
-              ? 100
-              : calcService.loading([athlete, activities]))+'%'
-            }}
-        >
+      {athlete && (state.loading || state.fully_loaded) &&
+        <div className="LoadBar">
+          <div
+            className="LoadBarProgress"
+            style={{
+              width:(state.fully_loaded
+                ? 100
+                : calcService.loading([athlete, activities]))+'%'
+              }}
+          ></div>
         </div>
       }
 
@@ -144,10 +149,6 @@ function App() {
 
     {state.error &&
       <div>{state.error}</div>
-    }
-
-    {state.fully_loaded === false &&
-      <div>Loading runs...</div>
     }
 
     {activities.length > 0 &&

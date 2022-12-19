@@ -83,11 +83,16 @@ footer {
 }
 
 header .LoadBar {
-  background-color: var(--strava-orange);
+  background-color: #fed4be;
   position: absolute;
   bottom: 0;
-  border-right: 100vw solid white;
   height: 5px;
+  width: 100%;
+}
+.LoadBar .LoadBarProgress {
+  background-color: var(--strava-orange);
+  position: absolute;
+  height: 100%;
 }
 
 .MetricSwitch {
