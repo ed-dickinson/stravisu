@@ -3,10 +3,30 @@ import React, {useState, useEffect} from 'react'
 import formatService from '../helpers/format'
 import statService from '../helpers/stats'
 
+const emoji = type => {
+  const emoji = type==='Run'?'🏃'
+    :type==='Ride'?'🚴'
+    :type==='Swim'?'🏊'
+    :type==='Hike'?'🥾'
+    :type==='InlineSkate'?'🛼'
+    :type==='RockClimb'?'🧗'
+    :type==='Canoe'?'🛶'
+    :type==='Kayak'?'🛶'
+    :type==='Row'?'🚣'
+    :type==='Walk'?'🚶'
+    :type==='All'?'🌚'
+    :'🕴️'
+  return emoji
+}
+
 const Activities = ({activities, metric}) => {
 
   const [stats, setStats] = useState({})
   // const [streak, setStreak] = useState(0)
+  const [types, setTypes] = useState(['All'])
+  const [filter, setFilter] = useState('All')
+
+  const [filteredActivities, setFilteredActivities] = useState(activities)
 
   useEffect(()=>{
 
@@ -16,7 +36,41 @@ const Activities = ({activities, metric}) => {
 
     setStats({streak, distance_all, distance_year})
 
+
+    let types_copy = types
+    activities.forEach(a => {
+
+      // let types_copy = types
+
+      let found = types_copy.find(e => a.type === e)
+
+      if (!found) {
+        types_copy.push(a.type)
+        // let new_types = types_copy
+        setTypes(types_copy)
+      }
+    })
+
+    console.log('after activities', types)
+
   }, [activities])
+
+  useEffect(()=>{
+    console.log('filter', filter)
+    if (filter === 'All') {
+      setFilteredActivities(activities)
+    } else {
+      let filtered = activities.filter(a =>
+        a.type === filter
+      )
+      setFilteredActivities(filtered)
+    }
+  }, [activities, filter])
+
+  const setAndMove = (type) => {
+    setFilter(type)
+    document.querySelector('.TypeFilters .Highlight').style.left = `${0.25 + (types.indexOf(type) * 2.5)}em`
+  }
 
   return (
     <main className="Activities">
@@ -31,6 +85,16 @@ const Activities = ({activities, metric}) => {
           {formatService.distance(stats.distance_year, metric)} distance travelled this year
         </div>
       </div>
+
+      <div className="TypeFilters">
+        <span>
+          {types.map(type =>
+            <button className={"FilterButton" + (type === filter) ? " Selected" :""} key={types.indexOf(type)} onClick={()=>{setAndMove(type)}}><span>{emoji(type)}</span></button>
+          )}
+          <div className="Highlight"></div>
+        </span>
+      </div>
+
       <table>
       <thead>
         <tr>
@@ -45,7 +109,7 @@ const Activities = ({activities, metric}) => {
       </thead>
         <tbody>
 
-          {activities.map(activity =>
+          {filteredActivities.map(activity =>
             <tr key={activity.id} className="Activity">
               <td className="Type">
                 {activity.type==='Run'?'🏃'

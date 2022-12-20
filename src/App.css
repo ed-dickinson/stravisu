@@ -116,6 +116,40 @@ header .LoadBar {
 
 
 
+.TypeFilters > span {
+  border: 2px solid var(--strava-orange);
+  border-radius: 1.75em;
+  display: inline-block;
+  padding: 0.25em;
+  position: relative;
+}
+
+.TypeFilters button {
+  height: 3em;
+  width: 3em;
+  background-color: transparent;
+  border: 0;
+  border-radius: 50%;
+  /* background-color: var(--strava-orange); */
+  cursor: pointer;
+}
+.TypeFilters button span {
+  transform: scale(2);
+  display: inline-block;
+}
+.Highlight {
+  background-color: var(--strava-orange);
+  height: 2.5em;
+  width: 2.5em;
+  border-radius: 50%;
+  position: absolute;
+  top: 0.25em;
+  z-index: -1;
+  transition: left 0.2s;
+}
+
+
+
 .Title {
   font-family: 'Moolong', sans-serif;
   color: var(--strava-orange);

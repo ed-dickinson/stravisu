@@ -29,14 +29,14 @@ const exported = {
       // inc_today = false
       start_on = 1
       console.log('found run yesterday')
-    } else if (matchRunDate(2)) {
-      // starts yesterday
-      // inc_today = false
-      start_on = 2
-      console.log('found run 2 days ago')
-    } else if (matchRunDate(3)) {
-      start_on = 3
-      console.log('found run 3 days ago')
+    // } else if (matchRunDate(2)) {
+    //   // starts yesterday
+    //   // inc_today = false
+    //   start_on = 2
+    //   console.log('found run 2 days ago')
+    // } else if (matchRunDate(3)) {
+    //   start_on = 3
+    //   console.log('found run 3 days ago')
     }
 
     let streak = 0
