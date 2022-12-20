@@ -90,7 +90,7 @@ function App() {
 
     // Cancels if there already are activities.
     if (activities.length > 0) {return}
-    if (state.error) {return}
+    if (state.error || state.loading) {return}
 
     if (token.valid) {
       setState({...state, loading: true})
@@ -138,6 +138,14 @@ function App() {
       </button>
 
     </header>
+
+    <div className="Title"><span>S</span><span>T</span><span>r</span><span>a</span><span>-</span><span>V</span><span>i</span><span>s</span>
+    <span>
+      U
+      <span className="Aliser"><span>a</span><span>l</span><span>i</span><span>s</span><span>e</span><span>r</span></span>
+
+    </span>
+    <span>!</span></div>
 
     {athlete &&
       <Athlete athlete={athlete}/>

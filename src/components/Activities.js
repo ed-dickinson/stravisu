@@ -1,11 +1,36 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 import formatService from '../helpers/format'
+import statService from '../helpers/stats'
 
 const Activities = ({activities, metric}) => {
 
+  const [stats, setStats] = useState({})
+  // const [streak, setStreak] = useState(0)
+
+  useEffect(()=>{
+
+    let streak = statService.streak(activities)
+    let distance_all = statService.distanceAll(activities)
+    let distance_year = statService.distanceYear(activities)
+
+    setStats({streak, distance_all, distance_year})
+
+  }, [activities])
+
   return (
     <main className="Activities">
+      <div>
+        <div style={{fontWeight: 'bold', color: 'var(--strava-orange)'}}>
+          {stats.streak} day streak{stats.streak>1?'!':'...'}
+        </div>
+        <div>
+          {formatService.distance(stats.distance_all, metric)} total distance travelled
+        </div>
+        <div>
+          {formatService.distance(stats.distance_year, metric)} distance travelled this year
+        </div>
+      </div>
       <table>
       <thead>
         <tr>
@@ -23,7 +48,17 @@ const Activities = ({activities, metric}) => {
           {activities.map(activity =>
             <tr key={activity.id} className="Activity">
               <td className="Type">
-                {activity.type}
+                {activity.type==='Run'?'🏃'
+                :activity.type==='Ride'?'🚴'
+                :activity.type==='Swim'?'🏊'
+                :activity.type==='Hike'?'🥾'
+                :activity.type==='InlineSkate'?'🛼'
+                :activity.type==='RockClimb'?'🧗'
+                :activity.type==='Canoe'?'🛶'
+                :activity.type==='Kayak'?'🛶'
+                :activity.type==='Row'?'🚣'
+                :activity.type==='Walk'?'🚶'
+                :'🕴️'}
               </td>
               <td className="Name">
                 {activity.name}

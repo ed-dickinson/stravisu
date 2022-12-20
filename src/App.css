@@ -9,6 +9,8 @@ html {
 .App {
   text-align: center;
   min-height: 100vh;
+  /* display: grid;
+  grid-template-rows: auto 1fr auto; */
 }
 
 .Athlete {
@@ -110,4 +112,177 @@ header .LoadBar {
 }
 .MetricSwitch:hover {
   opacity: 0.75;
+}
+
+
+
+.Title {
+  font-family: 'Moolong', sans-serif;
+  color: var(--strava-orange);
+  font-size: 15vw;
+  /* letter-spacing: -0.15em; */
+  -webkit-text-stroke: 0.0em black;
+  /* text-transform: uppercase; */
+  transform: rotate(-02deg) scale(90%);
+  margin-top: -0.5em;
+}
+.Title > span {
+  display: inline-block;
+  position: relative;
+
+}
+.Title > span:nth-of-type(1) {
+  font-size: 1.4em;
+  transform: rotate(-30deg);
+  margin-right: -0.2em;
+  top: -0.0em;
+}
+.Title > span:nth-of-type(2) {
+  font-size: 1.4em;
+  transform: rotate(5deg);
+  margin-right: -0.2em;
+  top: -0.05em;
+}
+/* .Title span:nth-of-type(3) {
+  font-size: 0.75em;
+  transform: rotate(10deg);
+  margin-right: -0.3em;
+  top: 0.15em;
+} */
+.Title > span:nth-of-type(3) {
+  font-size: 1em;
+  transform: rotate(-20deg);
+  margin-left: -0.15em;
+  top: 0.0em;
+}
+.Title > span:nth-of-type(4) {
+  font-size: 1.8em;
+  transform: rotate(-05deg);
+  margin-left: -0.1em;
+  top: 0.05em;
+}
+
+
+.Title > span:nth-of-type(5) {
+  font-size: 0.6em;
+  transform: rotate(0deg);
+  margin-left: -0.2em;
+  top: 0.1em;
+}
+
+.Title > span:nth-of-type(6) {
+  font-size: 1.2em;
+  transform: rotate(10deg);
+  margin-left: -0.2em;
+  top: 0.01em;
+}
+.Title > span:nth-of-type(7) {
+  font-size: 1.1em;
+  transform: rotate(10deg);
+  margin-left: -0.15em;
+  top: 0.05em;
+}
+.Title > span:nth-of-type(8) {
+  font-size: 1.8em;
+  transform: rotate(10deg);
+  margin-left: -0.10em;
+  top: -0.04em;
+}
+.Title > span:nth-of-type(9) {
+  font-size: 1.2em;
+  transform: rotate(-05deg);
+  margin-left: -0.15em;
+  top: 0em;
+}
+.Title > span:nth-of-type(10) {
+  font-size: 1.1em;
+  transform: rotate(10deg);
+  margin-left: -0.1em;
+  top: -0em;
+}
+
+/* .Title span:nth-of-type(4)::after {
+  font-size: 0.2em;
+  content: 'vA';
+  transform: rotate(-05deg);
+  left: 1.7em;
+  bottom: -0em;
+  position: absolute;
+  color: black;
+}
+.Title span:nth-of-type(9)::after {
+  font-size: 0.2em;
+  content: 'liseR';
+  transform: rotate(-05deg);
+  left: 0.8em;
+  bottom: -0.25em;
+  position: absolute;
+  color: black;
+} */
+.Title > span:nth-of-type(4)::after
+/* , .Title > span:nth-of-type(9)::after, .Title span:nth-of-type(9)::before  */
+{
+  position: absolute;
+  color: black;
+}
+.Title > span:nth-of-type(4)::after {
+  font-size: 0.18em;
+  content: 'vA';
+  transform: rotate(-0deg);
+  left: 1.3em;
+  bottom: 0.4em;
+}
+/* .Title span:nth-of-type(9)::before {
+  font-size: 0.15em;
+  content: 'ali';
+  transform: rotate(-10deg);
+  left: 2.4em;
+  bottom: 0.5em;
+}
+.Title span:nth-of-type(9)::after {
+  font-size: 0.16em;
+  content: 'ser';
+  transform: rotate(-50deg);
+  left: 3.6em;
+  bottom: 1.2em;
+} */
+
+.Title .Aliser {
+  font-size: 0.18em;
+  color: black;
+  position: absolute;
+  display: block;
+  bottom: 0.5em;
+  transform: rotate(-15deg);
+  left: 1.3em;
+}
+.Title .Aliser > span {
+  display: inline-block;
+  top: 0;
+  position: relative;
+}
+.Title .Aliser > span:nth-of-type(1) {
+  transform: rotate(30deg);
+  top: -0.3em;
+}
+.Title .Aliser > span:nth-of-type(2) {
+  transform: rotate(15deg);
+  top: -0.05em;
+}
+.Title .Aliser > span:nth-of-type(3) {
+  transform: rotate(0deg);
+  top: 0.05em;
+}
+.Title .Aliser > span:nth-of-type(4) {
+  transform: rotate(-15deg);
+  top: 0.05em;
+}
+.Title .Aliser > span:nth-of-type(5) {
+  transform: rotate(-30deg);
+  top: -0.05em;
+}
+.Title .Aliser > span:nth-of-type(6) {
+  transform: rotate(-40deg);
+  top: -0.4em;
+  left: -0.1em;
 }

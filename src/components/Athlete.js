@@ -29,7 +29,7 @@ const Athlete = ({athlete}) => {
 
   return (
     <div className="Athlete">
-    <div><img src={athlete.profile} alt="Athlete profile photo."/></div>
+    <div><img src={athlete.profile} alt="Athlete portrait"/></div>
       <div className="ID"><span>{athlete.id}</span></div>
       <div><strong>{athlete.firstname} {athlete.lastname}</strong></div>
       <div><span>{athlete.city}, {athlete.state}, {athlete.country}</span></div>
