@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 
 import Athlete from './components/Athlete'
 import Activities from './components/Activities'
