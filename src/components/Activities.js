@@ -30,30 +30,24 @@ const Activities = ({activities, metric}) => {
 
   useEffect(()=>{
 
-    let streak = statService.streak(activities)
-    let distance_all = statService.distanceAll(activities)
-    let distance_year = statService.distanceYear(activities)
+    let streak = statService.streak(filteredActivities)
+    let distance_all = statService.distanceAll(filteredActivities)
+    let distance_year = statService.distanceYear(filteredActivities)
 
     setStats({streak, distance_all, distance_year})
 
-
     let types_copy = types
-    activities.forEach(a => {
-
-      // let types_copy = types
+    filteredActivities.forEach(a => {
 
       let found = types_copy.find(e => a.type === e)
 
       if (!found) {
         types_copy.push(a.type)
-        // let new_types = types_copy
         setTypes(types_copy)
       }
     })
 
-    console.log('after activities', types)
-
-  }, [activities])
+  }, [filteredActivities])
 
   useEffect(()=>{
     console.log('filter', filter)
@@ -74,6 +68,18 @@ const Activities = ({activities, metric}) => {
 
   return (
     <main className="Activities">
+
+      <div className="TypeFilters">
+        <span>
+          {types.map(type =>
+            <button className={"FilterButton" + (type === filter) ? " Selected" :""} key={types.indexOf(type)} onClick={()=>{setAndMove(type)}}><span>{emoji(type)}</span></button>
+          )}
+          <div className="Highlight"></div>
+        </span>
+      </div>
+
+      <br />
+
       <div>
         <div style={{fontWeight: 'bold', color: 'var(--strava-orange)'}}>
           {stats.streak} day streak{stats.streak>1?'!':'...'}
@@ -86,14 +92,8 @@ const Activities = ({activities, metric}) => {
         </div>
       </div>
 
-      <div className="TypeFilters">
-        <span>
-          {types.map(type =>
-            <button className={"FilterButton" + (type === filter) ? " Selected" :""} key={types.indexOf(type)} onClick={()=>{setAndMove(type)}}><span>{emoji(type)}</span></button>
-          )}
-          <div className="Highlight"></div>
-        </span>
-      </div>
+      <br />
+
 
       <table>
       <thead>
