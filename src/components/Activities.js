@@ -21,7 +21,7 @@ const emoji = type => {
 
 const Activities = ({activities, metric}) => {
 
-  const [stats, setStats] = useState({})
+  const [stats, setStats] = useState({totals: {}})
   // const [streak, setStreak] = useState(0)
   const [types, setTypes] = useState(['All'])
   const [filter, setFilter] = useState('All')
@@ -31,10 +31,12 @@ const Activities = ({activities, metric}) => {
   useEffect(()=>{
 
     let streak = statService.streak(filteredActivities)
-    let distance_all = statService.distanceAll(filteredActivities)
-    let distance_year = statService.distanceYear(filteredActivities)
+    // let distance_all = statService.distanceAll(filteredActivities)
+    // let distance_year = statService.distanceYear(filteredActivities)
 
-    setStats({streak, distance_all, distance_year})
+    let totals = statService.totals(filteredActivities)
+
+    setStats({streak, totals})
 
     let types_copy = types
     filteredActivities.forEach(a => {
@@ -80,15 +82,52 @@ const Activities = ({activities, metric}) => {
 
       <br />
 
-      <div>
-        <div style={{fontWeight: 'bold', color: 'var(--strava-orange)'}}>
+      <div className="Stats">
+        <div className="Streak">
           {stats.streak} day streak{stats.streak>1?'!':'...'}
         </div>
-        <div>
-          {formatService.distance(stats.distance_all, metric)} total distance travelled
-        </div>
-        <div>
-          {formatService.distance(stats.distance_year, metric)} distance travelled this year
+        <div className="Totals">
+          <p>
+          <div>
+            {formatService.distance(stats.totals.total_distance, metric)} total distance travelled
+          </div>
+          <div>
+            <sup>(that's {(stats.totals.total_distance / 40075000).toFixed(2)}x round the earth!)</sup>
+            <sup>
+              (that's from {statService.cities(stats.totals.total_distance, metric)} times!)
+            </sup>
+          </div>
+          <div>
+            {formatService.distance(stats.totals.year_distance, metric)} distance travelled this year
+          </div>
+          <div><sup>
+            (that's from {metric ? 'Paris to Istanbul' : 'NY to San Francisco'} {(stats.totals.year_distance / (metric ? 2255170 : 4128840)).toFixed(2)} times!)
+          </sup>
+          <sup>
+            (that's from {statService.cities(stats.totals.year_distance, metric)} times!)
+          </sup>
+          </div>
+          </p>
+
+          <p>
+          <div>
+            {formatService.elevation(stats.totals.total_elevation, metric)} total height climbed
+          </div>
+          <div>
+            <sup>(that's {(stats.totals.total_elevation / 8848.86).toFixed(2)}x times up Everest!)</sup>
+            <sup>(that's {statService.mountains(stats.totals.total_elevation)}!)</sup>
+          </div>
+          <div>
+            {formatService.elevation(stats.totals.year_elevation, metric)} climbed this year
+          </div>
+          <div>
+            {stats.totals.year_elevation > 8848.86
+              ? <sup>(that's up Everest {(stats.totals.year_elevation / 8848.86).toFixed(2)} times!)</sup>
+              : <sup>(that's up {metric ? 'Mont Blanc' : 'Denali'}  {(stats.totals.year_elevation / (metric ? 4807.81 : 6190)).toFixed(2)} times!)</sup>
+            }
+            <sup>(that's {statService.mountains(stats.totals.year_elevation)}!)</sup>
+            </div>
+          </p>
         </div>
       </div>
 

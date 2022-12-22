@@ -115,6 +115,31 @@ header .LoadBar {
 }
 
 
+.Stats {
+  .Streak {
+    color: $strava-orange;
+    font-weight: bold;
+  }
+  sup {
+    color: $strava-orange;
+  }
+  .Totals {
+    display: flex;
+    // align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    p {
+      // align-items: center;
+      // align-content: space-around;
+      // flex: 1;
+      // display: inline-block;
+      // flex-grow: 2;
+      margin: 1em;
+    }
+  }
+}
+
+
 
 .TypeFilters > span {
   border: 2px solid $strava-orange;
@@ -171,18 +196,13 @@ header .LoadBar {
       // left: $i * 20px;
     }
   }
-
-
 }
 
 @keyframes pulse {
   from {transform: scale(1);}
   to {transform: scale(1.2);}
 }
-// .Title > span {
-//
-//
-// }
+
 .Title > span:nth-of-type(1) {
   font-size: 1.4em;
   transform: rotate(-30deg);
@@ -253,24 +273,7 @@ header .LoadBar {
   top: -0em;
 }
 
-/* .Title span:nth-of-type(4)::after {
-  font-size: 0.2em;
-  content: 'vA';
-  transform: rotate(-05deg);
-  left: 1.7em;
-  bottom: -0em;
-  position: absolute;
-  color: black;
-}
-.Title span:nth-of-type(9)::after {
-  font-size: 0.2em;
-  content: 'liseR';
-  transform: rotate(-05deg);
-  left: 0.8em;
-  bottom: -0.25em;
-  position: absolute;
-  color: black;
-} */
+
 .Title > span:nth-of-type(4)::after
 /* , .Title > span:nth-of-type(9)::after, .Title span:nth-of-type(9)::before  */
 {
