@@ -38,7 +38,9 @@ const Activities = ({activities, metric}) => {
 
     let totals = statService.totals(filteredActivities)
 
-    setStats({streak, totals})
+    let month = statService.month(filteredActivities)
+
+    setStats({streak, totals, month})
 
     let types_copy = types
     filteredActivities.forEach(a => {

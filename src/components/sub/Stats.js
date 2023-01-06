@@ -5,12 +5,31 @@ import statService from '../../helpers/stats'
 
 const Stats = ({stats, metric}) => {
 
+  const month_names = ["January","February","March","April","May","June","July",
+      "August","September","October","November","December"]
+
   return (
     <div className="Stats">
       <div className="Streak">
         {stats.streak > 6 && <span><sup>!</sup>!</span>}
         {stats.streak} day streak{stats.streak>1?'!':'...'}
         {stats.streak > 6 && <span>!<sup>!</sup></span>}
+      </div>
+
+      <div className="MonthTally">
+        <span>
+        <div className="MonthName">{month_names[new Date().getMonth()]}</div>
+        {stats.month &&
+          <div>
+            {stats.month.include_today ? 'including today' : 'not including today'}, day {stats.month.day} of {stats.month.days}
+            <div>{formatService.distance(stats.month.distance, metric)} so far this month</div>
+            <div>on track for {formatService.distance(stats.month.projected, metric)}</div>
+            <div className="BackgroundIndicator" style={{width: (stats.month.day / stats.month.days * 100) + '%'}}></div>
+          </div>
+
+        }
+
+        </span>
       </div>
       <div className="Totals">
         <p>
