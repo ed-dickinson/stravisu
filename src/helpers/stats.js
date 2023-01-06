@@ -103,39 +103,50 @@ const exported = {
   cities : (distance, metric) => {
     let output
 
-    const city_distances = [
-     ['Vienna to Prague' , 287], ['London to Edinburgh' , 608], ['Berlin to Barcelona' , 1735], ['Paris to Istanbul' , 2675], ['Oslo to Lisbon', 3251], ['Stockholm to Lisbon', 3440], ['Cairo to Cape Town' , 9441], ['Brussels to Beijing' , 14693]
-    ]
-
-    const us_city_distances = [
-      ['Phoenix to Tucson' , 195], ['LA to Las Vegas' , 441], ['Nashville to Dallas' , 1121], ['Seattle to San Diego' , 2033], ['Miami to Minneapolis' , 2794], ['Boston to Albuquerque' , 3581], ['NY to San Francisco' , 4740], ['Vancouver to Panama' , 8254], ['Anchorage to Buenos Aires' , 7779 + 8028]
-  ]
-
-    // let city = city_distances.find(x => return x)
-
-    // great wall is 21196.18
-
-    let dists = metric ? city_distances : us_city_distances
-
-    let chosen
-
-    dists.forEach(x => {
-      if (x[1] * 1000 < distance) {
-        chosen = x
+    if (distance > 40075000) {
+      output = "(that's round the Earth"
+      let n = 40075000 / distance
+      if (n > 1.25) {
+        output += ` ${Math.round(n)}${n%1>=0.75?'¾':n%1>=0.5?'½':'¼'} times`
       }
-    })
+      output += "!)"
 
-    output = chosen ? <span>{chosen[0]} {(distance/chosen[1]/1000).toFixed(2)}</span> : ''
+    } else {
+      const city_distances = [
+       ['Vienna to Prague' , 287], ['London to Edinburgh' , 608], ['Berlin to Barcelona' , 1735], ['Paris to Istanbul' , 2675], ['Oslo to Lisbon', 3251], ['Stockholm to Lisbon', 3440], ['Cairo to Cape Town' , 9441], ['Brussels to Beijing' , 14693]
+      ]
+
+      const us_city_distances = [
+        ['Phoenix to Tucson' , 195], ['LA to Las Vegas' , 441], ['Nashville to Dallas' , 1121], ['Seattle to San Diego' , 2033], ['Miami to Minneapolis' , 2794], ['Boston to Albuquerque' , 3581], ['NY to San Francisco' , 4740], ['Vancouver to Panama' , 8254], ['Anchorage to Buenos Aires' , 7779 + 8028]
+      ]
+
+      let dists = metric ? city_distances : us_city_distances
+
+      let chosen
+
+      dists.forEach(x => {
+        if (x[1] * 1000 < distance) {
+          chosen = x
+        }
+      })
+
+      output = chosen ? `(that's from ${chosen[0]}${(distance/chosen[1]) > 2000 ? ' and back' : ''}!)` : '-'
+    }
+
+
     return output
   }
 
   ,
 
   mountains : (elevation, metric) => {
-    let output
+    let output = ''
 
     if (elevation > 413000) {
       output = 'reach the International Space Station'
+      if (elevation >= (413000 * 2)) {
+        output += ` ${Math.floor(elevation / 413000)} times over`
+      }
     }
 
     else if (elevation > 100000) {
@@ -146,6 +157,10 @@ const exported = {
       output = 'climb out of the stratosphere'
     } else if (elevation > 8848.86) {
       output = 'climb Everest'
+      let amount = Math.floor(elevation / 8848.86)
+      if (amount > 1) {
+        output += amount === 2 ? ' twice' : ` ${['three', 'four', 'five'][amount-3]} times`
+      }
     } else if (elevation > 6190.5 && !metric) {
       output = 'climb Denali'
     } else if (elevation > 4421 && !metric) {
@@ -154,15 +169,28 @@ const exported = {
       output = 'climb Kilimanjaro'
     } else if (metric && elevation > 4807.81) {
       output = 'climb Mont Blanc'
+    } else if (!metric && elevation > 3302.3) {
+      output = 'climb San Jacinto Peak'
+  } else if (metric && elevation > 2917) {
+      output = 'climb Mount Olympus'
+    } else if (!metric && elevation > 1558) {
+      output = 'climb Devils Tower'
+    } else if (!metric && elevation > 1482) {
+      output = 'climb Spruce Knob'
+    } else if (metric && elevation > 1345) {
+      output = 'climb Ben Nevis'
     } else if (elevation > 828) {
       output = 'climb the Burj Khalifa'
-    } else if (elevation > 381) {
+    } else if (!metric && elevation > 381) {
       output = 'climb the Empire State Building'
-    } else if (elevation > 330) {
+    } else if (metric && elevation > 330) {
       output = 'climb the Eiffel Tower'
     }
 
-    output = 'enough to ' + output
+    // let metric_mtns = [['the Eiffel Tower', 330],['Ben Nevis', 1345],['Mount Olympus', 2917],['Mont Blanc', 4807.81],['Kilimanjaro', 5895]]
+    // let imp_mtns = [['the Empire State Building', 381],[]]
+
+    output = output ? `(that's enough to ${output})!` : '-'
 
     return output
   }

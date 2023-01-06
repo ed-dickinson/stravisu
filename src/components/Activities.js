@@ -3,6 +3,8 @@ import React, {useState, useEffect} from 'react'
 import formatService from '../helpers/format'
 import statService from '../helpers/stats'
 
+import Stats from './sub/Stats'
+
 const emoji = type => {
   const emoji = type==='Run'?'🏃'
     :type==='Ride'?'🚴'
@@ -68,13 +70,19 @@ const Activities = ({activities, metric}) => {
     document.querySelector('.TypeFilters .Highlight').style.left = `${0.25 + (types.indexOf(type) * 2.5)}em`
   }
 
+  const setAndMove2 = (input) => {
+    console.log(input)
+    // setFilter(type)
+    // document.querySelector('.TypeFilters .Highlight').style.left = `${0.25 + (types.indexOf(type) * 2.5)}em`
+  }
+
   return (
     <main className="Activities">
 
       <div className="TypeFilters">
         <span>
           {types.map(type =>
-            <button className={"FilterButton" + (type === filter) ? " Selected" :""} key={types.indexOf(type)} onClick={()=>{setAndMove(type)}}><span>{emoji(type)}</span></button>
+            <button className={"FilterButton" + ((type === filter) ? " Selected" :"")} key={types.indexOf(type)} onClick={()=>{setAndMove(type)}}><span>{emoji(type)}</span></button>
           )}
           <div className="Highlight"></div>
         </span>
@@ -82,56 +90,17 @@ const Activities = ({activities, metric}) => {
 
       <br />
 
-      <div className="Stats">
-        <div className="Streak">
-          {stats.streak} day streak{stats.streak>1?'!':'...'}
-        </div>
-        <div className="Totals">
-          <p>
-          <div>
-            {formatService.distance(stats.totals.total_distance, metric)} total distance travelled
-          </div>
-          <div>
-            <sup>(that's {(stats.totals.total_distance / 40075000).toFixed(2)}x round the earth!)</sup>
-            <sup>
-              (that's from {statService.cities(stats.totals.total_distance, metric)} times!)
-            </sup>
-          </div>
-          <div>
-            {formatService.distance(stats.totals.year_distance, metric)} distance travelled this year
-          </div>
-          <div><sup>
-            (that's from {metric ? 'Paris to Istanbul' : 'NY to San Francisco'} {(stats.totals.year_distance / (metric ? 2255170 : 4128840)).toFixed(2)} times!)
-          </sup>
-          <sup>
-            (that's from {statService.cities(stats.totals.year_distance, metric)} times!)
-          </sup>
-          </div>
-          </p>
-
-          <p>
-          <div>
-            {formatService.elevation(stats.totals.total_elevation, metric)} total height climbed
-          </div>
-          <div>
-            <sup>(that's {(stats.totals.total_elevation / 8848.86).toFixed(2)}x times up Everest!)</sup>
-            <sup>(that's {statService.mountains(stats.totals.total_elevation)}!)</sup>
-          </div>
-          <div>
-            {formatService.elevation(stats.totals.year_elevation, metric)} climbed this year
-          </div>
-          <div>
-            {stats.totals.year_elevation > 8848.86
-              ? <sup>(that's up Everest {(stats.totals.year_elevation / 8848.86).toFixed(2)} times!)</sup>
-              : <sup>(that's up {metric ? 'Mont Blanc' : 'Denali'}  {(stats.totals.year_elevation / (metric ? 4807.81 : 6190)).toFixed(2)} times!)</sup>
-            }
-            <sup>(that's {statService.mountains(stats.totals.year_elevation)}!)</sup>
-            </div>
-          </p>
-        </div>
-      </div>
+      <Stats stats={stats} metric={metric} />
 
       <br />
+
+      <div className="DisplaySelectors">
+        <span>
+          <button onClick={()=>{setAndMove2('List')}}>List</button>
+          <button onClick={()=>{setAndMove2('Week')}}>Week</button>
+          <div className="Highlight"></div>
+        </span>
+      </div>
 
 
       <table>
