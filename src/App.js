@@ -180,7 +180,7 @@ function App() {
       </a>
     }
 
-    <footer>
+    <footer className={document.querySelector('#root').offsetHeight <= window.innerHeight ? 'Fixed' : ''}>
 
         <a
           className="App-link"

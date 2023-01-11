@@ -84,6 +84,10 @@ footer {
   width: 100%;
 }
 
+footer.Fixed {
+  position: fixed;
+}
+
 header .LoadBar {
   background-color: $strava-orange-light;
   position: absolute;
@@ -241,21 +245,29 @@ header .LoadBar {
   border-top: 3px solid $strava-orange;
   border-bottom: 3px solid $strava-orange;
   background-color: $strava-orange;
-  button {
-    background-color: transparent;
-    // background-color: $strava-orange-light;
-    border-radius: 3px;
-    border: 0;
-    font-weight: bold;
-    color: $strava-orange;
-    display: inline-block;
-    margin: 0;
-    height: 100%;
-    z-index: 2;
-  }
-  span {
+  .ButtonBox {
     background-color: white;
     border-radius: 3px;
+    .ButtonContainer {
+      button {
+        background-color: transparent;
+        // background-color: $strava-orange-light;
+        border-radius: 3px;
+        border: 0;
+        font-weight: bold;
+        color: $strava-orange;
+        display: inline-block;
+        margin: 0;
+        height: 100%;
+        z-index: 2;
+        position: relative;
+      }
+    }
+  }
+
+  span {
+    background-color: white;
+
     display: inline-block;
     padding: 0;
     margin: 0;
@@ -263,7 +275,7 @@ header .LoadBar {
     z-index: 1;
   }
   .Highlight {
-    background-color: $strava-orange;
+    background-color: $strava-orange-light;
     position: absolute;
     height: 100%;
     width: 3em;

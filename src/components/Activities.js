@@ -76,6 +76,7 @@ const Activities = ({activities, metric}) => {
     console.log(input)
     // setFilter(type)
     // document.querySelector('.TypeFilters .Highlight').style.left = `${0.25 + (types.indexOf(type) * 2.5)}em`
+    // document.querySelector('.TypeFilters .Highlight').style.width = event
   }
 
   return (
@@ -97,10 +98,14 @@ const Activities = ({activities, metric}) => {
       <br />
 
       <div className="DisplaySelectors">
-        <span>
-          <button onClick={()=>{setAndMove2('List')}}>List</button>
-          <button onClick={()=>{setAndMove2('Week')}}>Week</button>
-          <div className="Highlight"></div>
+        <span className="ButtonBox">
+          <div className="ButtonContainer">
+            <div className="Highlight"></div>
+            <button onClick={()=>{setAndMove2('List')}}>List</button>
+            <button onClick={()=>{setAndMove2('Week')}}>Week</button>
+
+          </div>
+
         </span>
       </div>
 

@@ -21,9 +21,9 @@ const Stats = ({stats, metric}) => {
         <div className="MonthName">{month_names[new Date().getMonth()]}</div>
         {stats.month &&
           <div>
-            {stats.month.include_today ? 'including today' : 'not including today'}, day {stats.month.day} of {stats.month.days}
+            day {stats.month.day} of {stats.month.days}
             <div>{formatService.distance(stats.month.distance, metric)} so far this month</div>
-            <div>on track for {formatService.distance(stats.month.projected, metric)}</div>
+            <div>{stats.month.include_today ? 'Including today' : 'Not including today'},<br />you're on track for {formatService.distance(stats.month.projected, metric)}</div>
             <div className="BackgroundIndicator" style={{width: (stats.month.day / stats.month.days * 100) + '%'}}></div>
           </div>
 
